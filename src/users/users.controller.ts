@@ -42,7 +42,7 @@ export class UsersController {
   })
   @ApiConflictResponse({ description: 'User already exists.' })
   @Post('signup')
-  signUp(@Body() createUserDto: CreateUserDto) {
+  signUp(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     return this.usersService.signUp(createUserDto);
   }
 
@@ -56,7 +56,7 @@ export class UsersController {
     description: 'User not found or password does not match.',
   })
   @Post('signin')
-  signIn(@Body() signInDto: SignInDto) {
+  signIn(@Body(new ValidationPipe()) signInDto: SignInDto) {
     return this.usersService.signIn(signInDto);
   }
 
@@ -67,7 +67,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Get('find')
   @UsePipes(new ValidationPipe({ transform: true }))
-  findAll(@Query() findAllDto: FindAllDto) {
+  findAll(@Query(new ValidationPipe()) findAllDto: FindAllDto) {
     return this.usersService.findAll(findAllDto);
   }
 
@@ -76,7 +76,7 @@ export class UsersController {
   @ApiBadRequestResponse({ description: 'Unable to update user.' })
   @UseGuards(AuthGuard)
   @Patch('update')
-  update(@Body() updateUserDto: UpdateUserDto, @CurrentUser() user: number) {
+  update(@Body(new ValidationPipe()) updateUserDto: UpdateUserDto, @CurrentUser() user: number) {
     return this.usersService.update(user, updateUserDto);
   }
 
